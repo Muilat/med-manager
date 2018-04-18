@@ -17,8 +17,12 @@ import android.widget.Toast;
 import com.muilat.android.med_manager.data.MedicationContract;
 import com.muilat.android.med_manager.data.MedicationDbHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
+import static java.lang.Integer.numberOfLeadingZeros;
 import static java.lang.Integer.parseInt;
 
 public class AddMedicationActivity extends AppCompatActivity {
@@ -35,12 +39,18 @@ public class AddMedicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medication);
 
+
+
         mNewMedicationNameEditText = (EditText)findViewById(R.id.med_name_edit_text);
         mNewMedicationDescriptionEditText = (EditText)findViewById(R.id.med_description_edit_text);
         mNewFrequencyEditText = (EditText)findViewById(R.id.frequency_edit_text);
         mNewStartdateEditText = (EditText)findViewById(R.id.startdate_edit_text);
         mNewStarttimeEditText = (EditText)findViewById(R.id.starttime_edit_text);
         mNewEnddateEditText = (EditText)findViewById(R.id.enddate_edit_text);
+
+        mNewStartdateEditText.setText("");
+        mNewStarttimeEditText.setText("");
+        mNewEnddateEditText.setText("");
 
 
         ////////format stsrt date and end date
@@ -52,18 +62,20 @@ public class AddMedicationActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                switch (count){
+                String data = mNewStartdateEditText.getText().toString();
+                int len = data.length();
+                switch (len){
 //                    case 1:
 //                        mNewStartdateEditText.setText("0"+s.toString());
                     case 2:
-                        mNewStartdateEditText.setText(s.toString()+"/");
+                        mNewStartdateEditText.append("/");
                         break;
                     case 5:
-                        mNewStartdateEditText.setText(s.toString()+"/");
+                        mNewStartdateEditText.append("/");
                         break;
                     case 10:
 //                        mNewStartdateEditText.setText(s.toString()+"/");
-                        startdate = s.toString().replace("/"," ");
+                        startdate = data.replace("/",".");
                         break;
 
                     default:
@@ -87,16 +99,18 @@ public class AddMedicationActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                switch (count){
+                String data = mNewEnddateEditText.getText().toString();
+                int len = data.length();
+                switch (len){
                     case 2:
-                        mNewEnddateEditText.setText(s.toString()+"/");
+                        mNewEnddateEditText.append("/");
                         break;
                     case 5:
-                        mNewEnddateEditText.setText(s.toString()+"/");
+                        mNewEnddateEditText.append("/");
                         break;
                     case 10:
 //                        mNewEnddateEditText.setText(s.toString()+"/");
-                        enddate = s.toString().replace("/"," ");
+                        enddate = data.replace("/",".");
 
                         break;
 
@@ -121,15 +135,17 @@ public class AddMedicationActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                switch (count){
+                String data = mNewStarttimeEditText.getText().toString();
+                int len = data.length();
+                switch (len){
 //                    case 1:
 //                        mNewStarttimeEditText.setText("0"+s.toString());
                     case 2:
-                        mNewStarttimeEditText.setText(s.toString()+":");
+                        mNewStarttimeEditText.append(":");
 //                        starttime = s.toString()+" ";
                         break;
                     case 5:
-                        starttime = s.toString()+" ";
+                        starttime = data;
                         break;
 
                     default:
@@ -165,10 +181,10 @@ public class AddMedicationActivity extends AppCompatActivity {
      */
     public void saveMedication(View view) {
         int frequency = 5;//default/minimal frequency
-        Date mStartDate = new Date(), mEndDate = new Date();
+        long mStartDate = 0, mEndDate = 0;
 
-        if (starttime.length() != 5)
-            starttime = " 00:00:00";
+        if(starttime.length() != 5)
+            starttime = " 00:00";
 
         if (mNewMedicationNameEditText.getText().length() == 0 ||
                 mNewMedicationDescriptionEditText.getText().length() == 0 ||
@@ -196,27 +212,34 @@ public class AddMedicationActivity extends AppCompatActivity {
 
     }
 
-    public Date formatDate(String mdate, String mTime){
+    public long formatDate(String mdate, String mTime){
         if (mTime ==""){
-            mTime = " 23:59:00";
-        }else
-            mTime= mTime+":00";
-        Date date = new Date(mdate +" "+ mTime);
+            mTime = "23:59";
+        }
 
-        return date;
+        SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+        f.setLenient(false);
+        try {
+            Date ddd = f.parse(mdate +", "+ mTime);
+             return  ddd.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 
 
-    public  void addNewMedication(String medName, String medDescription,  int frequency, Date mStartDate, Date mEndDate){
+    public  void addNewMedication(String medName, String medDescription,  int frequency, long mStartDate, long mEndDate){
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MedicationContract.MedicationEntry.COLUMN_MED_NAME,medName);
         contentValues.put(MedicationContract.MedicationEntry.COLUMN_MED_DESCRIPTION,medDescription);
         contentValues.put(MedicationContract.MedicationEntry.COLUMN_FREQUENCY,frequency);
-        contentValues.put(MedicationContract.MedicationEntry.COLUMN_START_DATE,mStartDate.getTime());
-        contentValues.put(MedicationContract.MedicationEntry.COLUMN_END_DATE,mEndDate.getTime());
-        contentValues.put(MedicationContract.MedicationEntry.COLUMN_NEXT_TIMING,mStartDate.getTime()+frequency*60^60);
+        contentValues.put(MedicationContract.MedicationEntry.COLUMN_START_DATE,mStartDate);
+        contentValues.put(MedicationContract.MedicationEntry.COLUMN_END_DATE,mEndDate);
+        contentValues.put(MedicationContract.MedicationEntry.COLUMN_NEXT_TIMING,mStartDate+(int) (TimeUnit.HOURS.toSeconds(frequency)));
 
         // Insert the content values via a ContentResolver
         Uri uri = getContentResolver().insert(MedicationContract.MedicationEntry.CONTENT_URI, contentValues);

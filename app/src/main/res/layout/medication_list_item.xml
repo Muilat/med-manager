@@ -14,7 +14,7 @@
         android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        android:text="eadace"/>
+        android:text=""/>
 
     <TextView
         android:id="@+id/med_description_text_view"
@@ -26,17 +26,28 @@
 
         android:fontFamily="sans-serif"
         android:textSize="16sp"
-        android:text="v vj  v jbvmv v jv vjv tfu yv uytjt "/>
-    <TextView
-        android:id="@+id/starttime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:textColor="@android:color/black"
+        android:text=""/>
+    <!--<TextView-->
+        <!--android:id="@+id/startdate"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--android:textColor="@android:color/black"-->
 
-        android:fontFamily="sans-serif"
-        android:textSize="16sp"
-        android:text="555555555"/>
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:textSize="16sp"-->
+        <!--android:text=""/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/endtdate"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--android:textColor="@android:color/black"-->
+
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:textSize="16sp"-->
+        <!--android:text=""/>-->
 
     <TextView
         android:id="@+id/nexttiming"
@@ -47,7 +58,7 @@
 
         android:fontFamily="sans-serif"
         android:textSize="16sp"
-        android:text="5555666655555"/>
+        android:text=""/>
 
 
 </LinearLayout>
