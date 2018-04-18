@@ -1,4 +1,4 @@
-package com.muilat.android.medication.data;
+package com.muilat.android.med_manager.data;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -10,7 +10,7 @@ import android.provider.BaseColumns;
 public class MedicationContract {
 
     // The authority, which is how your code knows which Content Provider to access
-    public static final String AUTHORITY = "com.muilat.android.medication";
+    public static final String AUTHORITY = "com.muilat.android.med_manager";
 
     // The base content URI = "content://" + <authority>
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
@@ -36,6 +36,8 @@ public class MedicationContract {
         public static final String COLUMN_START_DATE = "startDate";
         // COLUMN_END_DATE -> endDate
         public static final String COLUMN_END_DATE = "endDate";
+        // COLUMN_NEXT_TIMING -> nextTiming
+        public static final String COLUMN_NEXT_TIMING = "nextTiming";
 
     };
 }

@@ -1,10 +1,10 @@
-package com.muilat.android.medication.data;
+package com.muilat.android.med_manager.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.muilat.android.medication.data.MedicationContract.MedicationEntry;
+import com.muilat.android.med_manager.data.MedicationContract.MedicationEntry;
 
 /**
  * Created by my computer on 26-Mar-18.
@@ -26,9 +26,9 @@ public class MedicationDbHelper extends SQLiteOpenHelper {
                 MedicationEntry.COLUMN_MED_NAME + " TEXT NOT NULL, " +
                 MedicationEntry.COLUMN_MED_DESCRIPTION + " TEXT NOT NULL, " +
                 MedicationEntry.COLUMN_FREQUENCY + " INTEGER NOT NULL, " +
-                MedicationEntry.COLUMN_START_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-                MedicationEntry.COLUMN_END_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
-//                MedicationEntry.COLUMN_END_DATE + " TIMESTAMP NOT NULL" +
+                MedicationEntry.COLUMN_START_DATE + " LONG," +
+                MedicationEntry.COLUMN_END_DATE + " LONG, " +
+                MedicationEntry.COLUMN_NEXT_TIMING + " LONG" +
                 "); ";
 
         db.execSQL(SQL_CREATE_MED_MANAGER_TABLE);

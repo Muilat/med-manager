@@ -16,9 +16,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignedInActivity"></activity>
+        <activity android:name=".SignedInActivity" />
 
         <uses-permission android:name="android.permission.INTERNET" />
+
+        <activity android:name=".AddMedicationActivity"
+            android:parentActivityName=".MainActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
+        <!-- Register the TaskContentProvider -->
+        <!-- Set name, authorities, and exported attributes -->
+        <!-- exported = false limits access to this ContentProvider to only this app -->
+        <provider
+            android:name="com.muilat.android.med_manager.data.MedicationContentProvider"
+            android:authorities="com.muilat.android.med_manager"
+            android:exported="false"/>
     </application>
 
 </manifest>

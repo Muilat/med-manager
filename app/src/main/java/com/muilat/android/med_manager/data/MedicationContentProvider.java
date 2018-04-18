@@ -1,4 +1,4 @@
-package com.muilat.android.medication.data;
+package com.muilat.android.med_manager.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import static com.muilat.android.medication.data.MedicationContract.MedicationEntry.TABLE_NAME;
+import static com.muilat.android.med_manager.data.MedicationContract.MedicationEntry.TABLE_NAME;
 
 /**
  * Created by my computer on 17-Apr-18.
